@@ -1,0 +1,13 @@
+#
+# G3D subsystem configuration
+#
+
+menu "G3D Support"
+
+config G3D
+	tristate "FIMG-3DSE"
+	depends on CPU_S3C6410
+	help
+		FIMG-3D
+
+endmenu

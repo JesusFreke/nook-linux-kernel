@@ -1,0 +1,207 @@
+# arch/arm/mach-s3c6410/Kconfig
+#
+# Copyright 2008 Openmoko, Inc.
+# Copyright 2008 Simtec Electronics
+#
+# Licensed under GPLv2
+
+# Configuration options for the S3C6410 CPU
+
+config CPU_S3C6410
+	bool
+	select CPU_S3C6400_INIT
+	select CPU_S3C6400_CLOCK
+	help
+	  Enable S3C6410 CPU support
+
+config S3C6410_SETUP_SDHCI
+	bool
+	help
+	  Internal helper functions for S3C6410 based SDHCI systems
+	  
+menu "Samsung S3C6410 Implementations"
+
+choice
+	prompt "Select Machine"
+
+config MACH_SMDK6410
+	bool "SMDK6410"
+	select CPU_S3C6410
+	select S3C_DEV_HSMMC
+	select S3C_DEV_HSMMC1
+	select S3C_DEV_HSMMC2	
+	select S3C6410_SETUP_SDHCI
+	select S3C_DMA_PL080
+#	select S3C_DEV_I2C1
+#	select S3C64XX_SETUP_I2C1
+	help
+	  Machine support for the Samsung SMDK6410
+
+config MACH_BRAVO
+	bool "BRAVO"
+	depends on MACH_SMDK6410
+	help
+	  Machine support for Intrinsyc Bravo platform
+
+config MACH_BRAVO_PROTOTYPE
+	bool "BRAVO_PROTOTYPE"
+	depends on MACH_BRAVO
+	help
+	  Machine support for Intrinsyc Bravo platform PROTOTYPE HW version
+
+config MACH_BRAVO_EVT1
+	bool "BRAVO_EVT1"
+	depends on MACH_BRAVO
+	help
+	  Machine support for Intrinsyc Bravo platform EVT1 HW version
+
+config MACH_BRAVO_EVT15
+	bool "BRAVO_EVT15"
+	depends on MACH_BRAVO_EVT1
+	help
+	  Machine support for Bravo platform EVT15 HW version
+
+config MACH_BRAVO_EVT2
+	bool "BRAVO_EVT2"
+	depends on MACH_BRAVO_EVT15
+	help
+	  Machine support for Bravo platform EVT2 HW version
+
+config MACH_BRAVO_DVT
+	bool "BRAVO_DVT"
+	depends on MACH_BRAVO_EVT2
+	help
+	  Machine support for Bravo platform DVT HW version
+
+config MACH_BRAVO_PROD
+	bool "BRAVO_PROD"
+	depends on MACH_BRAVO_DVT
+	help
+	  Machine support for Bravo platform product release
+
+config MACH_BRAVO_NO_UART
+	bool "BRAVO_NO_UART"
+	depends on MACH_BRAVO_DVT
+	help
+	  Machine support for Bravo platform DVT with UART disabled
+
+config MACH_BRAVO_RDU
+	bool "BRAVO_RDU"
+	depends on MACH_BRAVO_DVT
+	help
+	  Machine support for Bravo platform RDU HW version
+	  
+config BRAVO_WIFI_ONOFF
+	bool "BRAVO_WIFI_ONOFF"
+	depends on MACH_BRAVO_EVT2
+	help
+	  Enable or Disable WIFI Power
+
+config MACH_BRAVO_I2C_MULTICLK
+	bool "BRAVO_I2C_MULTICLK"
+	depends on MACH_BRAVO
+	help
+	  Multiple I2C clk support on one I2C bus
+
+config USBHOST_CLOCK_EPLL
+	bool "USBHOST_CLOCK_EPLL"
+	depends on MACH_BRAVO
+	help
+	  USBHOST1.1 Clock Source MOUTEPLL
+
+
+config BRAVO_LOWBATT_WAKEUP
+	bool "BRAVO_LOWBATT_WKUP"
+	depends on MACH_BRAVO
+	help
+	  LowBattery Wakeup triggered by PMIC PCOMP_OFF_THR 
+
+config MACH_BIGBANG
+	bool "BIGBANG"
+	select CPU_S3C6410
+#	select S3C_DEV_HSMMC
+#	select S3C_DEV_HSMMC1
+#	select S3C_DEV_I2C1
+#	select S3C6410_SETUP_SDHCI
+#	select S3C64XX_SETUP_I2C1
+#	select S3C_DMA_PL080
+	help
+	  Machine support for the Samsung BIGBANG
+
+endchoice
+
+# At least some of the SMDK6410s were shipped with the card detect
+# for the MMC/SD slots connected to the same input. This means that
+# either the boards need to be altered to have channel0 to an alternate
+# configuration or that only one slot can be used.
+
+choice
+	prompt "SMDK6410 MMC/SD slot setup"
+	depends on MACH_SMDK6410
+
+config SMDK6410_SD_CH0
+	bool "Use channel 0 only"
+	depends on MACH_SMDK6410
+	help
+          Select CON7 (channel 0) as the MMC/SD slot, as
+	  at least some SMDK6410 boards come with the
+	  resistors fitted so that the card detects for
+	  channels 0 and 1 are the same.
+endchoice
+
+choice
+	prompt "SMDK6410 MMC/SD slot1 setup"
+	depends on MACH_SMDK6410
+
+config SMDK6410_SD_CH1
+	bool "Use channel 1 only"
+	depends on MACH_SMDK6410
+	help
+          Select CON6 (channel 1) as the MMC/SD slot, as
+	  at least some SMDK6410 boards come with the
+	  resistors fitted so that the card detects for
+	  channels 0 and 1 are the same.
+
+endchoice
+
+choice
+	prompt "SMDK6410 MMC/SD slot2 setup"
+	depends on MACH_SMDK6410
+
+config SMDK6410_SD_CH2
+	bool "Use channel 2 only"
+	depends on MACH_SMDK6410
+	help
+          Select CON6 (channel 2) as the MMC/SD slot, as
+	  at least some SMDK6410 boards come with the
+	  resistors fitted so that the card detects for
+	  channels 0, 1 or 2 are the same.
+
+endchoice
+
+choice
+	prompt "SMDK6410 Revision"
+	depends on MACH_SMDK6410
+
+config SMDK6410_REV02
+	bool "SMDK6410 Rev0.2"
+	depends on MACH_SMDK6410
+	help
+	  Select SMDK6410 sub revision number 
+
+config SMDK6410_REV10
+	bool "SMDK6410 Rev1.0"
+	select TOUCHSCREEN_NEW
+	depends on MACH_SMDK6410
+	help
+	  Select SMDK6410 sub revision number 
+
+endchoice
+
+config BOARD_REVISION
+	hex "Select H/W Revision"
+	depends on MACH_BIGBANG
+	default "0x81"
+
+
+endmenu

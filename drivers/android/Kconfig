@@ -1,0 +1,26 @@
+menuconfig ANDROID
+	tristate "Android version 1.0 back porting for android 2.6.27"
+	help
+	  Android version 1.0 back porting for android 2.6.27
+
+if ANDROID
+
+config ANDROID_POWER
+	bool "Android power driver"
+	depends on PM && RTC_CLASS
+	default n
+
+config ANDROID_POWER_STAT
+	bool "Android power driver lock stats"
+	depends on ANDROID_POWER
+	default y
+
+config ANDROID_POWER_ALARM
+	bool "Android alarm driver"
+	depends on ANDROID_POWER
+	default y
+
+#endmenu
+
+endif # ANDROID
+
