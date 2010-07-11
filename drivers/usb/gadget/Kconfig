@@ -572,6 +572,30 @@ config USB_FILE_STORAGE_TEST
 	  behavior of USB Mass Storage hosts.  Not needed for
 	  normal operation.
 
+config USB_FILE_STORAGE_ADB
+	tristate "File-backed Storage Gadget, with ADB"
+	depends on BLOCK
+	help
+	  The File-backed Storage Gadget acts as a USB Mass Storage
+	  disk drive.  As its storage repository it can use a regular
+	  file or a block device (in much the same way as the "loop"
+	  device driver), specified as a module parameter.
+
+	  It also has an Android ADB interface
+
+	  Say "y" to link the driver statically, or "m" to build a
+	  dynamically linked module called "g_file_storage".
+
+config USB_FILE_STORAGE_ADB_TEST
+	bool "File-backed Storage Gadget testing version"
+	depends on USB_FILE_STORAGE_ADB
+	default n
+	help
+	  Say "y" to generate the larger testing version of the
+	  File-backed Storage Gadget, useful for probing the
+	  behavior of USB Mass Storage hosts.  Not needed for
+	  normal operation.
+
 config USB_G_SERIAL
 	tristate "Serial Gadget (with CDC ACM support)"
 	help
