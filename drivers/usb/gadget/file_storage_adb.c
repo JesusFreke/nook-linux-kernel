@@ -3623,12 +3623,12 @@ reset:
 	clear_bit(IGNORE_BULK_OUT, &fsg->atomic_bitflags);
 
 	d = ep_desc(fsg->gadget, &adb_fs_bulk_in_desc, &adb_hs_bulk_in_desc);
-	if ((rc == enable_endpoint(fsg, fsg->adb_bulk_in, d)) != 0)
+	if ((rc = enable_endpoint(fsg, fsg->adb_bulk_in, d)) != 0)
 		goto reset;
 	fsg->adb_bulk_in_enabled = 1;
 
 	d = ep_desc(fsg->gadget, &adb_fs_bulk_out_desc, &adb_hs_bulk_out_desc);
-	if ((rc == enable_endpoint(fsg, fsg->adb_bulk_out, d)) != 0)
+	if ((rc = enable_endpoint(fsg, fsg->adb_bulk_out, d)) != 0)
 		goto reset;
 	fsg->adb_bulk_out_enabled = 1;
 
