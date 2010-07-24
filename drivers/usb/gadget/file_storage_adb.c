@@ -1659,7 +1659,7 @@ static int class_setup_req(struct fsg_dev *fsg,
 			if (ctrl->bRequestType != (USB_DIR_OUT |
 					USB_TYPE_CLASS | USB_RECIP_INTERFACE))
 				break;
-			if (w_index != 0 || w_value != 0) {
+			if (w_index != 1 || w_value != 0) {
 				value = -EDOM;
 				break;
 			}
@@ -1675,7 +1675,7 @@ static int class_setup_req(struct fsg_dev *fsg,
 			if (ctrl->bRequestType != (USB_DIR_IN |
 					USB_TYPE_CLASS | USB_RECIP_INTERFACE))
 				break;
-			if (w_index != 0 || w_value != 0) {
+			if (w_index != 1 || w_value != 0) {
 				value = -EDOM;
 				break;
 			}
@@ -1694,7 +1694,7 @@ static int class_setup_req(struct fsg_dev *fsg,
 			if (ctrl->bRequestType != (USB_DIR_OUT |
 					USB_TYPE_CLASS | USB_RECIP_INTERFACE))
 				break;
-			if (w_index != 0 || w_value != 0) {
+			if (w_index != 1 || w_value != 0) {
 				value = -EDOM;
 				break;
 			}
@@ -1805,7 +1805,7 @@ get_config:
 		if (ctrl->bRequestType != (USB_DIR_OUT| USB_TYPE_STANDARD |
 				USB_RECIP_INTERFACE))
 			break;
-		if (fsg->config && w_index == 0) {
+		if (fsg->config && (w_index == 0 || w_index == 1)) {
 
 			/* Raise an exception to wipe out previous transaction
 			 * state (queued bufs, etc) and install the new
@@ -1820,7 +1820,7 @@ get_config:
 			break;
 		if (!fsg->config)
 			break;
-		if (w_index != 0) {
+		if (w_index != 0 && w_index != 1) {
 			value = -EDOM;
 			break;
 		}
